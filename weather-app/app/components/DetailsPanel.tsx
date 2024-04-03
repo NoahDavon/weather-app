@@ -22,9 +22,9 @@ export default function DetailsPanel({date, location, temp, wind, prec, wmo, isD
         </div>
         <Divider orientation="vertical" height={"40px"}/>
         <div className='flex items-center min-w-40'>
-            <Image src={WMO[wmo].day.image} className=' -m-4'/>
+            <Image src={WMO[wmo??0].day.image} className=' -m-4'/>
             <div className='flex flex-col'>
-                <Text overflowWrap={"normal"} padding={"8px"}>{WMO[wmo].day.description}</Text>
+                <Text overflowWrap={"normal"} padding={"8px"}>{WMO[wmo??0].day.description}</Text>
                 <Text>{`${temp}\u00b0C`}</Text>
             </div>
             
