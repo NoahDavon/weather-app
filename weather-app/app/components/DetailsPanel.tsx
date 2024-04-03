@@ -31,7 +31,7 @@ export default function DetailsPanel({date, location, temp, wind, prec, wmo, isD
         </div>
         <Divider orientation="vertical" height={"40px"}/>
         <div className='flex flex-col min-w-32'>
-            <Text>Precipitation: {prec}</Text>
+            <Text>Precipitation: {prec}%</Text>
             <Text>Wind speed: {wind}km/h</Text>
         </div>
     </div>:
