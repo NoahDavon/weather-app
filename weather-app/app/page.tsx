@@ -15,12 +15,17 @@ import { useState } from "react";
 // import cities from "./data/cities";
 export default function Home() {
   
-  // const [selectedCity, setSelectedCity] = useState(
-  //   cities.find((x) => x.name == "London")
-  // );
-  async function getWeatherData(city = null) {
+  const [selectedCity, setSelectedCity] = useState(    {
+    "name": "London",
+    "lat": "51.50853",
+    "lng": "-0.12574",
+    "country": "GB",
+    "admin1": "ENG",
+    "admin2": "GLA"
+  });
+  async function getWeatherData(city = selectedCity) {
     return await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=35.6854&longitude=139.7531&hourly=temperature_2m,precipitation_probability,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,precipitation_probability_max,wind_speed_10m_max`
+      `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}4&longitude=${city.lng}&hourly=temperature_2m,precipitation_probability,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,precipitation_probability_max,wind_speed_10m_max`
     ).then(r => r.json());
   }
   const { isLoading, data } = useQuery({
@@ -34,14 +39,16 @@ export default function Home() {
     wind?: number,
     prec?: number,
     wmo?: number,
-    location?: string
+    location?: string,
+    isDay?: boolean
   }>({
     date: undefined,
     temp: undefined,
     wind: undefined,
     prec: undefined,
     wmo: undefined,
-    location: undefined
+    location: undefined,
+    isDay: false
   })
   return (
     <div className=" bg-white p-2 flex flex-col gap-2 h-[100vh] ">
@@ -69,7 +76,8 @@ export default function Home() {
                 wind: data.hourly.wind_speed_10m[i],
                 prec: data.hourly.precipitation_probability[i],
                 wmo: data.hourly.weather_code[i],
-                location: "London, UK"
+                location: "London, UK",
+                isDay: true
               })} temp={data.hourly.temperature_2m[i]} wmo={data.hourly.weather_code[i]} date={x} key={i.toString()}/>)}
             </div>
           </TabPanel>
@@ -81,11 +89,24 @@ export default function Home() {
                 wind: data.hourly.wind_speed_10m[i+24],
                 prec: data.hourly.precipitation_probability[i+24],
                 wmo: data.hourly.weather_code[i+24],
-                location: "London, UK"
+                location: "London, UK",
+                isDay: true
               })} temp={data.hourly.temperature_2m[i+24]} wmo={data.hourly.weather_code[i+24]} date={x} key={(i+24).toString()}/>)}
             </div>
           </TabPanel>
-          <TabPanel></TabPanel>
+          <TabPanel>
+          <div className="flex flex-col gap-2 w-full overflow-y-scroll basis-0 flex-grow">
+              {(data?.daily?.time as string[])?.map((x, i) => <WeatherCard isDaily onClick={()=> setDetails({
+                date: x,
+                temp: data.daily.temperature_2m_max[i],
+                wind: data.daily.wind_speed_10m_max[i],
+                prec: data.daily.precipitation_probability_max[i],
+                wmo: data.daily.weather_code[i],
+                location: "London, UK",
+                isDay: true
+              })} temp={data.daily.temperature_2m_max[i]} wmo={data.daily.weather_code[i]} date={x} key={(i).toString()}/>)}
+            </div>
+          </TabPanel>
         </TabPanels>
       </Tabs>
     </div>
