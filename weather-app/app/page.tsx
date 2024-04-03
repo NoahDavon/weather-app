@@ -3,6 +3,7 @@ import WeatherCard from "./components/WeatherCard";
 import DetailsPanel from "./components/DetailsPanel";
 import { SearchIcon } from "@chakra-ui/icons";
 import {
+  Text,
   IconButton,
   Input,
   List,
@@ -78,6 +79,7 @@ export default function Home() {
   });
   return (
     <div className=" bg-white p-2 flex flex-col gap-2 h-[100vh] ">
+      <Text className=' font-semibold text-slate-500 drop-shadow-md' fontSize={"xxx-large"}>{`${selectedCity.name}, ${selectedCity.country}`}</Text>
       <div className="flex bg-slate-50 rounded-full w-full p-4 items-center">
         <Popover isOpen={(search?.length??0) > 0}>
           <PopoverTrigger>
