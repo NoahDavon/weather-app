@@ -104,7 +104,7 @@ export default function Home() {
             </PopoverBody>
           </PopoverContent>
         </Popover>
-        <IconButton as={SearchIcon} aria-label="search" size={"xs"} onClick={()=> setSearch(fuse.search(q).map(({item}) => item))}/>
+        <IconButton as={SearchIcon} aria-label="search" size={"xs"} onClick={()=> setSearch(fuse.search(q).slice(0,10).map(({item}) => item))}/>
       </div>
 
       <DetailsPanel {...details} />
